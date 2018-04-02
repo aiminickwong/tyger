@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 'ordering': ('domain',),
                 'db_table': 'django_site',
                 'verbose_name': 'site',
-                'verbose_name_plural': 'sites',
+                'verbose_name_plural': 'proxies',
             },
             bases=(models.Model,),
             managers=[

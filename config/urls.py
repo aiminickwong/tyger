@@ -18,6 +18,9 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
 
+    # Sites Module
+    url(r'^proxies/', include('tygerapp.proxies.urls', namespace='proxies')),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

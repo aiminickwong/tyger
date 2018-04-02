@@ -39,7 +39,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///tygerapp'),
+    'default': {
+        'ENGINE':
+            'django.db.backends.sqlite3',
+        'NAME':'tyger',
+    },
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -68,9 +72,11 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'bootstrap4',
 ]
 LOCAL_APPS = [
     'tygerapp.users.apps.UsersConfig',
+    'tygerapp.proxies',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
