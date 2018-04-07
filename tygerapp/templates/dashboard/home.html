@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="row">
+    <h1>Dashboard</h1>
+    </div>
+<div class="row">
+        <div class="col-md-4">
+            <div class="card ">
+                <div class="card-header ">
+                    <h4 class="card-title">Proxies</h4>
+                    <p class="card-category">Current Stats</p>
+                </div>
+                <div class="card-body text-center">
+                    <a href="{% url 'proxies:list' %}"><h1>{{ object_list.count }}</h1></a><small>Total Proxies</small>
+                </div>
+                                <div class="card-footer">
+                    <a class="btn btn-success btn-block" href="{% url 'proxies:new' %}"><i class="fa fa-plus"></i> New Proxy</a>
+                </div>
+            </div>
+        </div>
+<div class="col-md-4">
+            <div class="card ">
+                <div class="card-header ">
+                    <h4 class="card-title">Dashboard</h4>
+                    <p class="card-category">Current Stats</p>
+                </div>
+                <div class="card-body ">
+                    <h4>This is where some content goes.</h4>
+                </div>
+            </div>
+        </div>
+<div class="col-md-4">
+            <div class="card ">
+                <div class="card-header ">
+                    <h4 class="card-title">Dashboard</h4>
+                    <p class="card-category">Current Stats</p>
+                </div>
+                <div class="card-body ">
+                    <h4>This is where some content goes.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

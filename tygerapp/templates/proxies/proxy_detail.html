@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Proxy: {{ object.domain }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">
+             <a href="http://{{ object.domain }}"><h2>{{ object.domain }}</h2></a><small>(Click to visit..)</small>
+        </div>
+    <div class="card-body">
+    <div class="row">
+        <div class="col-md-8">
+        <H3>Proxy to:</H3>
+        <span class="badge badge-secondary">
+            {{ object.proxypass }}
+        </span>
+        <hr>
+       <h3>Features:</h3>
+        <p class="description">
+            {% if object.ssl %}
+                <span class="badge badge-success"><i class="fa fa-lock"></i> SSL </span>
+            {% endif %}
+        {% if object.letsencrypt %}
+                <span class="badge badge-info"><i class="fa fa-lock"></i> LetsEncrypt Secure </span>
+            {% endif %}
+                {% if object.rewriteHTTPS %}
+                <span class="badge badge-primary"><i class="fa fa-lock"></i> Re-Write to HTTPS </span>
+            {% endif %}
+        </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Actions:</h3>
+            <div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
+            <a class="btn btn-success" href="{% url 'proxies:edit' domain=object.domain %}"><i class="fa fa-pencil"></i> Edit {{ object.domain }}</a>
+            <a class="btn btn-danger" href="{%  url 'proxies:delete' domain=object.domain %}"><i class="fa fa-trash-o"></i> Delete {{ object.domain }}</a>
+            <a class="btn btn-info"><i class="fa fa-plus"></i> Add new domain</a>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock content %}
+

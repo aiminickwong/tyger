@@ -73,10 +73,12 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'bootstrap4',
+    'active_link',
 ]
 LOCAL_APPS = [
     'tygerapp.users.apps.UsersConfig',
     'tygerapp.proxies',
+    'tygerapp.dashboard',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

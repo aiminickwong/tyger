@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Proxies{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                     <h2>Proxies List</h2>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+  {% if proxy_list %}
+    {% for proxy in proxy_list %}
+      <a href="{% url 'proxies:detail' proxy.domain %}" class="list-group-item">
+        <h4 class="list-group-item-heading">{{ proxy.domain }}</h4>
+      </a>
+    {% endfor %}
+  {% else %}
+  <p>There are no proxies to display. </p>
+
+  {% endif %}
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group-lg">
+                    <a class="btn btn-success" href="{% url 'proxies:new' %}">Create Proxy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+  </div>
+
+{% endblock content %}

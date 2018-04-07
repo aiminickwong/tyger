@@ -1,8 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView
-
+from django.shortcuts import redirect, render, get_object_or_404
+from django.views.generic import DetailView, ListView, RedirectView, UpdateView, CreateView, TemplateView
+from django.contrib import messages
 from .models import Proxy
+from .forms import ProxyForm, ProxyUpdate, ProxyDelete
+from tygerapp.nginx import set_conf
 
 
 class SiteDetailView(LoginRequiredMixin, DetailView):
@@ -12,21 +15,55 @@ class SiteDetailView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = 'domain'
 
 
-class SiteUpdateView(LoginRequiredMixin, UpdateView):
+def save_site(request):
+    if request.method == "POST":
+        form = ProxyForm(request.POST)
+        if form.is_valid():
+            proxy = form.save(commit=False)
+            proxy.domain = form.cleaned_data['domain']
+            proxy.ssl = form.cleaned_data['ssl']
+            proxy.letsencrypt = form.cleaned_data['letsencrypt']
+            proxy.rewriteHTTPS = form.cleaned_data['rewriteHTTPS']
+            proxy.proxypass = form.cleaned_data['proxypass']
 
-    fields = ['name', ]
+            proxy.save()
+            set_conf(proxy=proxy)
+        messages.success(request, 'Proxy Saved!')
+        return redirect('proxies:list')
+    else:
+        form = ProxyForm()
 
-    # we already imported Site in the view code above, remember?
-    model = Proxy
+    return render(request, 'proxies/proxy_form.html', {'form': form})
 
-    # send the user back to their own page after a successful update
-    def get_success_url(self):
-        return reverse('proxies:detail',
-                       kwargs={'domain': self.request.user.username})
 
-    def get_object(self):
-        # Only get the User record for the user making the request
-        return Proxy.objects.get(domain=self.request.user.username)
+def update_site(request, domain):
+    proxy = get_object_or_404(Proxy, domain=domain)
+    if request.method == "POST":
+        form = ProxyForm(request.POST, instance=proxy)
+        if form.is_valid():
+            proxy.ssl = form.cleaned_data['ssl']
+            proxy.letsencrypt = form.cleaned_data['letsencrypt']
+            proxy.rewriteHTTPS = form.cleaned_data['rewriteHTTPS']
+            proxy.proxypass = form.cleaned_data['proxypass']
+            proxy.save()
+            messages.success(request, 'Domain amended successfully!')
+            return redirect('proxies:detail', domain=proxy.domain)
+    else:
+        form = ProxyUpdate(instance=proxy)
+    return render(request, 'proxies/proxy_update.html', {'form': form})
+
+
+def delete_site(request, domain):
+    proxy = get_object_or_404(Proxy, domain=domain)
+    if request.method == "POST":
+        form = ProxyDelete(request.POST, instance=proxy)
+        if form.is_valid():
+
+            proxy.delete()
+            messages.success(request, 'Domain deleted successfully!')
+            return redirect('proxies:list')
+    else:
+        return render(request, 'proxies/proxy_delete.html', {'proxy': proxy})
 
 
 class SiteListView(LoginRequiredMixin, ListView):

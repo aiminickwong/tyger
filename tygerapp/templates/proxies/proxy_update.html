@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{ proxy.domain }}{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>{{ proxy.domain }}</h1>
+                            <form class="form-horizontal" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <button type="submit" class="btn">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
