@@ -9,7 +9,7 @@ from django.db import migrations
 
 def update_site_forward(apps, schema_editor):
     """Set site domain and name."""
-    Site = apps.get_model('proxies', 'Site')
+    Site = apps.get_model('sites', 'Site')
     Site.objects.update_or_create(
         id=settings.SITE_ID,
         defaults={
