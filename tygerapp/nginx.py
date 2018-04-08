@@ -4,7 +4,7 @@ from django.conf import settings
 
 
 @login_required
-def set_conf(proxy):
+def set_conf(request, proxy):
     config = nginx.Conf()
     server = nginx.Server()
     print(proxy.domain)

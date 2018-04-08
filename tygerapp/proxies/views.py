@@ -30,7 +30,7 @@ def save_site(request):
             proxy.proxypass = form.cleaned_data['proxypass']
 
             proxy.save()
-            set_conf(proxy=proxy)
+            set_conf(request, proxy=proxy)
         messages.success(request, 'Proxy Saved!')
         return redirect('proxies:list')
     else:
