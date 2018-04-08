@@ -40,4 +40,4 @@ def set_conf(proxy):
         )
     )
     config.add(server)
-    nginx.dumpf(config, '/etc/nginx/Sites-Enabled/' + proxy.domain + '.conf')
+    nginx.dumpf(config, '/etc/nginx/conf.d/' + proxy.domain + '.conf')

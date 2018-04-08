@@ -1,6 +1,44 @@
 # tyger
 Nginx Reverse Proxy Manager
 
+#CentOS7 Install
+
+sudo yum update -y
+
+rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+
+yum install -y nginx
+
+yum install -y git nano wget
+
+yum -y install yum-utils
+
+sudo yum -y groupinstall development
+
+sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+
+sudo yum -y install python36u python36u-devel python36u-pip
+
+pip3.6 install virtualenv
+
+mkdir /app
+mkdir /app/env
+
+git clone https://github.com/morph1904/tyger.git tygerapp
+
+virtualenv /app/env/tyger
+
+source /app/env/tyger/bin/activate
+
+cd /app/tygerapp
+
+pip3.6 install requirements/local.txt
+
+
+
+
+
+
 #Basic install script
 
 sudo add-apt-repository ppa:jonathonf/python-3.6
