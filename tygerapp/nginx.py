@@ -41,3 +41,5 @@ def set_conf(proxy):
     )
     config.add(server)
     nginx.dumpf(config, '/etc/nginx/conf.d/' + proxy.domain + '.conf')
+    return True
+

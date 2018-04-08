@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import Proxy
 from .forms import ProxyForm, ProxyUpdate, ProxyDelete
 from tygerapp.nginx import set_conf
+from tygerapp.shell import delete_conf
 
 
 class SiteDetailView(LoginRequiredMixin, DetailView):
@@ -58,8 +59,9 @@ def delete_site(request, domain):
     if request.method == "POST":
         form = ProxyDelete(request.POST, instance=proxy)
         if form.is_valid():
-
+            delete_conf(proxy=proxy)
             proxy.delete()
+
             messages.success(request, 'Domain deleted successfully!')
             return redirect('proxies:list')
     else:
