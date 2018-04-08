@@ -1,7 +1,11 @@
 import subprocess
+from allauth.account.decorators import login_required
 
 
+@login_required
 def delete_conf(proxy):
 
     delete = subprocess.call(['rm', '-r', "/etc/nginx/conf.d/" + proxy.domain + ".conf"])
+    restart = subprocess.call(['service', 'nginx', 'restart'])
     print(delete)
+    print(restart)

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from allauth.account.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView, CreateView, TemplateView
@@ -16,6 +17,7 @@ class SiteDetailView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = 'domain'
 
 
+@login_required
 def save_site(request):
     if request.method == "POST":
         form = ProxyForm(request.POST)
@@ -37,6 +39,7 @@ def save_site(request):
     return render(request, 'proxies/proxy_form.html', {'form': form})
 
 
+@login_required
 def update_site(request, domain):
     proxy = get_object_or_404(Proxy, domain=domain)
     if request.method == "POST":
@@ -54,6 +57,7 @@ def update_site(request, domain):
     return render(request, 'proxies/proxy_update.html', {'form': form})
 
 
+@login_required
 def delete_site(request, domain):
     proxy = get_object_or_404(Proxy, domain=domain)
     if request.method == "POST":

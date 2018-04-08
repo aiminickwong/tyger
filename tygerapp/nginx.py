@@ -1,7 +1,9 @@
 import nginx
+from allauth.account.decorators import login_required
 from django.conf import settings
 
 
+@login_required
 def set_conf(proxy):
     config = nginx.Conf()
     server = nginx.Server()
@@ -35,7 +37,7 @@ def set_conf(proxy):
             '/',
             nginx.Key('proxy_pass', proxy.proxypass),
             nginx.Key('proxy_set_header', 'Host $host'),
-            nginx.Key('proxy_set_header', 'X - Real - IP $remote_addr'),
+            nginx.Key('proxy_set_header', 'X-Real-IP $remote_addr'),
             nginx.Key('X - Forwarded - For', '$proxy_add_x_forwarded_for'),
         )
     )

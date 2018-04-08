@@ -7,7 +7,14 @@ sudo yum update -y
 
 rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
 yum install -y nginx
+
+sudo firewall-cmd --permanent --zone=public --add-service=http 
+sudo firewall-cmd --permanent --zone=public --add-service=https
+sudo firewall-cmd --reload
+
 
 yum install -y git nano wget
 
@@ -17,7 +24,7 @@ sudo yum -y groupinstall development
 
 sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
 
-sudo yum -y install python36u python36u-devel python36u-pip
+sudo yum -y install python36u python36u-devel python36u-pip certbot
 
 pip3.6 install virtualenv
 
