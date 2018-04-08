@@ -61,7 +61,7 @@ def update_site(request, domain):
 def delete_site(request, domain):
     proxy = get_object_or_404(Proxy, domain=domain)
     if request.method == "POST":
-        delete_conf(proxy=proxy)
+        delete_conf(request, proxy=proxy)
         proxy.delete()
         messages.success(request, 'Domain deleted successfully!')
         return redirect('proxies:list')
