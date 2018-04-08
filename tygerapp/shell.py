@@ -9,3 +9,9 @@ def delete_conf(request, proxy):
     restart = subprocess.call(['service', 'nginx', 'restart'])
     print(delete)
     print(restart)
+
+
+@login_required
+def restart_nginx(request):
+    restart = subprocess.call(['service', 'nginx', 'restart'])
+    return restart

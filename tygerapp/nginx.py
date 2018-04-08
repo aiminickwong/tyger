@@ -1,6 +1,8 @@
 import nginx
 from allauth.account.decorators import login_required
 from django.conf import settings
+from tygerapp import letsencrypt
+from tygerapp import shell
 
 
 @login_required
@@ -26,10 +28,13 @@ def set_conf(request, proxy):
         )
 
     if proxy.ssl:
+        letsencrypt.generate_cert(request, proxy)
         server.add(
             nginx.Key('listen', '*:443 ssl'),
             nginx.Key('ssl_protocols', 'TLSv1 TLSv1.1 TLSv1.2'),
-            nginx.Key('server_name', proxy.domain),
+            nginx.Key('ssl_certificate', '/etc/letsencrypt/live/'+proxy.domain+'/fullchain.pem'),
+            nginx.Key('ssl_certificate_key', '/etc/letsencrypt/live/'+proxy.domain+'/privkey.pem'),
+
         )
 
     server.add(
@@ -38,9 +43,12 @@ def set_conf(request, proxy):
             nginx.Key('proxy_pass', proxy.proxypass),
             nginx.Key('proxy_set_header', 'Host $host'),
             nginx.Key('proxy_set_header', 'X-Real-IP $remote_addr'),
-            nginx.Key('X - Forwarded - For', '$proxy_add_x_forwarded_for'),
+            nginx.Key('proxy_set_header', 'X-Forwarded-For $proxy_add_x_forwarded_for'),
         )
     )
     config.add(server)
     nginx.dumpf(config, '/etc/nginx/conf.d/' + proxy.domain + '.conf')
 
+    shell.restart_nginx(request)
+
+    return True
