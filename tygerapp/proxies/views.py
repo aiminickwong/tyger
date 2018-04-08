@@ -6,8 +6,7 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView,
 from django.contrib import messages
 from .models import Proxy
 from .forms import ProxyForm, ProxyUpdate, ProxyDelete
-from tygerapp.nginx import set_conf
-from tygerapp.shell import delete_conf
+from tygerapp import nginx, shell
 
 
 class SiteDetailView(LoginRequiredMixin, DetailView):
@@ -30,7 +29,7 @@ def save_site(request):
             proxy.proxypass = form.cleaned_data['proxypass']
 
             proxy.save()
-            set_conf(request, proxy=proxy)
+            nginx.set_conf(request, proxy=proxy)
         messages.success(request, 'Proxy Saved!')
         return redirect('proxies:list')
     else:
@@ -50,6 +49,9 @@ def update_site(request, domain):
             proxy.rewriteHTTPS = form.cleaned_data['rewriteHTTPS']
             proxy.proxypass = form.cleaned_data['proxypass']
             proxy.save()
+            shell.delete_conf(request, proxy)
+            nginx.set_conf(request, proxy)
+
             messages.success(request, 'Domain amended successfully!')
             return redirect('proxies:detail', domain=proxy.domain)
     else:
