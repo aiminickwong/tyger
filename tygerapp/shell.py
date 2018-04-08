@@ -3,4 +3,5 @@ import subprocess
 
 def delete_conf(proxy):
 
-    subprocess.call(["rm", "-rf", "/etc/nginx/conf.d" + proxy.domain + ".conf"])
+    delete = subprocess.call(['rm', '-r', "/etc/nginx/conf.d/" + proxy.domain + ".conf"])
+    print(delete)
