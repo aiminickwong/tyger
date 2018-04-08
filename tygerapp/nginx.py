@@ -24,17 +24,20 @@ def set_conf(request, proxy):
 
     if proxy.rewriteHTTPS:
         serverHTTP.add(
-            nginx.Key('return', '301 https://$server_name$request_uri'),
+            nginx.Key('return', '302 https://$server_name$request_uri'),
 
         )
     else:
         serverHTTP.add(
             nginx.Location(
                 '/',
-                nginx.Key('proxy_pass', proxy.proxypass),
                 nginx.Key('proxy_set_header', 'Host $host'),
                 nginx.Key('proxy_set_header', 'X-Real-IP $remote_addr'),
                 nginx.Key('proxy_set_header', 'X-Forwarded-For $proxy_add_x_forwarded_for'),
+                nginx.Key('proxy_set_header', 'Upgrade $http_upgrade'),
+                nginx.Key('proxy_set_header', 'Connection '"upgrade"),
+                nginx.Key('proxy_http_version', '1.1'),
+                nginx.Key('proxy_pass', proxy.proxypass),
             )
         )
 
@@ -52,10 +55,16 @@ def set_conf(request, proxy):
     serverHTTPS.add(
         nginx.Location(
             '/',
-            nginx.Key('proxy_pass', proxy.proxypass),
+
             nginx.Key('proxy_set_header', 'Host $host'),
             nginx.Key('proxy_set_header', 'X-Real-IP $remote_addr'),
             nginx.Key('proxy_set_header', 'X-Forwarded-For $proxy_add_x_forwarded_for'),
+            nginx.Key('proxy_set_header', 'Upgrade $http_upgrade'),
+            nginx.Key('proxy_set_header', 'Connection '"upgrade"),
+            nginx.Key('proxy_http_version', '1.1'),
+            nginx.Key('proxy_pass', proxy.proxypass),
+
+
         )
     )
     config.add(serverHTTP)

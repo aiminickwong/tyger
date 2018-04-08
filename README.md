@@ -15,6 +15,9 @@ sudo firewall-cmd --permanent --zone=public --add-service=http
 sudo firewall-cmd --permanent --zone=public --add-service=https
 sudo firewall-cmd --reload
 
+#disable SELinux
+nano /etc/sysconfig/selinux
+
 
 yum install -y git nano wget
 
