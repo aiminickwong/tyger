@@ -61,7 +61,6 @@ def delete_site(request, domain):
         if form.is_valid():
             delete_conf(proxy=proxy)
             proxy.delete()
-
             messages.success(request, 'Domain deleted successfully!')
             return redirect('proxies:list')
     else:
