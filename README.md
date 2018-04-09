@@ -38,7 +38,7 @@ Clone the repo to the correct location:
                 
     
 
-###CentOS7 Install
+### CentOS7 Install (Very rough notes)
 
 sudo yum update -y
 
