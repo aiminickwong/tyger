@@ -1,7 +1,7 @@
 # Tyger
 Nginx Reverse Proxy Manager aimed at the HomeServer community. 
 
-###Ubuntu Install
+## Ubuntu Install
 
 Starting with a clean Ubuntu 16.04 Server install. All commands below should be run with **sudo**  or **root** privileges.
 
