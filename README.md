@@ -1,7 +1,44 @@
-# tyger
-Nginx Reverse Proxy Manager
+# Tyger
+Nginx Reverse Proxy Manager aimed at the HomeServer community. 
 
-#CentOS7 Install
+###Ubuntu Install
+
+Starting with a clean Ubuntu 16.04 Server install. All commands below should be run with **sudo**  or **root** privileges.
+
+    apt-get update && apt-get upgrade -y
+
+Reboot the server. 
+
+Make the app directories ready:
+
+    mkdir /app
+    mkdir /app/env
+
+Install the required OS packages:
+
+    apt-get install -y nginx wget nano build-essential python-dev
+    
+Install the virtual environment for Python and Django:
+
+    pip install virtualenv uwsgi
+    
+Setup our new python virtualenv:
+
+    virtualenv /app/env/tygerapp
+    
+Activate it:
+
+    source /app/env/tygerapp/bin/activate
+    
+Clone the repo to the correct location:
+
+    cd /app
+    git clone https://github.com/morph1904/tyger.git tygerapp
+    
+                
+    
+
+###CentOS7 Install
 
 sudo yum update -y
 
@@ -44,35 +81,3 @@ cd /app/tygerapp
 
 pip3.6 install requirements/local.txt
 
-
-
-
-
-
-#Basic install script
-
-sudo add-apt-repository ppa:jonathonf/python-3.6
-
-sudo apt-get update
-
-sudo apt-get install python3.6
-
-
-
-mkdir /app
-cd /app
-git clone https://github.com/morph1904/tyger.git tyger
-
-cd tyger
-
-apt install -y python-pip
-
-pip3 install virtualenv
-
-virtualenv /app/env/tyger
-
-source /app/env/tyger/bin/activate 
-
-pip3 install -r requirements/base.txt
-
-python3 ma
